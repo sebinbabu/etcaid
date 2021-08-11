@@ -1,4 +1,3 @@
-// Package etcaid implements a framework for configuration backup & restore of apps.
 package etcaid
 
 import (
@@ -6,16 +5,9 @@ import (
 )
 
 const (
-	xdgConfigTargetDirName string = "xdg_config"
-	homeTargetDirName      string = "home"
+	xdgConfigTargetDir string = "xdg_config" // Name of the dir that stores xdg config of an application
+	homeTargetDir      string = "home"       // Name of the dir that stores home config of an application
 )
-
-// ApplicationConfig is the raw configuration describing an application.
-type ApplicationConfig struct {
-	Name           string   // Name of the application
-	HomePaths      []string // HomePaths is the list of source application file paths that exist relative to the user home directory
-	XDGConfigPaths []string // XDGConfigPaths is the list of source application file paths that exist relative to the user XDG Config directory
-}
 
 // Application represents an application instance.
 type Application struct {
@@ -44,8 +36,8 @@ func NewApplication(
 		logger:        logger,
 
 		targetPath:          targetPath,
-		targetHomePath:      filepath.Join(targetPath, homeTargetDirName),
-		targetXDGConfigPath: filepath.Join(targetPath, xdgConfigTargetDirName),
+		targetHomePath:      filepath.Join(targetPath, homeTargetDir),
+		targetXDGConfigPath: filepath.Join(targetPath, xdgConfigTargetDir),
 	}
 }
 

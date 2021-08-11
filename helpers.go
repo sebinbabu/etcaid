@@ -55,3 +55,10 @@ func prepareAndCopy(src string, dest string, logger logger) error {
 
 	return nil
 }
+
+// parseFilename returns the name of file and its extension after parsing the given filename.
+// The (.) dot is included in extension.
+func parseFilename(filename string) (string, string) {
+	ext := filepath.Ext(filename)
+	return filename[:len(filename)-len(filepath.Ext(ext))], ext
+}
