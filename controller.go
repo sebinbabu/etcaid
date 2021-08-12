@@ -98,7 +98,7 @@ func (c *Controller) LoadApplications() error {
 
 	for _, f := range files {
 		name, ext := parseFilename(f.Name())
-		if !f.Type().IsRegular() || ext != ".toml" || name == "" {
+		if !f.Type().IsRegular() || ext != ".toml" || !isValidAppName(name) {
 			continue
 		}
 
@@ -156,4 +156,52 @@ func (c *Controller) RestoreAll() {
 	for _, a := range c.applications {
 		a.Restore()
 	}
+}
+
+// Create creates a new application configuration file to be used for backups.
+// It returns the path to this file, or an error if it fails.
+func (c *Controller) Create(name string) (string, error) {
+	if !isValidAppName(name) {
+		return "", &ApplicationError{
+			Op:      "Create",
+			Message: "failed to create application, names can only contain letters and numbers",
+		}
+	}
+
+	confPath := filepath.Join(c.applicationDir, name+".toml")
+
+	if _, err := os.Stat(confPath); err == nil || !os.IsNotExist(err) {
+		return "", &ApplicationError{
+			Op:      "Create",
+			Message: "another application with the same name already exists",
+			Err:     err,
+		}
+	}
+
+	file, err := os.Create(confPath)
+	if err != nil {
+		return "", &ApplicationError{
+			Op:      "Create",
+			Message: "failed to create application configuration",
+			Err:     err,
+		}
+	}
+	defer file.Close()
+
+	sampleConf := ApplicationConfig{
+		Title:          name,
+		HomePaths:      []string{},
+		XDGConfigPaths: []string{},
+	}
+
+	err = WriteApplicationConfig(sampleConf, file)
+	if err != nil {
+		return "", &ApplicationError{
+			Op:      "Create",
+			Message: "failed to write configuration",
+			Err:     err,
+		}
+	}
+
+	return confPath, nil
 }

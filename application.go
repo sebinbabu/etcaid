@@ -100,12 +100,16 @@ type ApplicationError struct {
 }
 
 func (e *ApplicationError) Error() string {
-	s := e.Op + ": " + e.Message + ", "
+	s := e.Op + ": " + e.Message
 	if e.Path != "" {
-		s = s + e.Path + ", "
+		s = s + ", " + e.Path
 	}
 
-	return s + e.Err.Error()
+	if e.Err != nil {
+		s = s + ", " + e.Err.Error()
+	}
+
+	return s
 }
 
 func (e *ApplicationError) Unwrap() error { return e.Err }

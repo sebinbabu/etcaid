@@ -3,6 +3,7 @@ package etcaid
 import (
 	"os"
 	"path/filepath"
+	"unicode"
 
 	"github.com/otiai10/copy"
 )
@@ -61,4 +62,20 @@ func prepareAndCopy(src string, dest string, logger logger) error {
 func parseFilename(filename string) (string, string) {
 	ext := filepath.Ext(filename)
 	return filename[:len(filename)-len(filepath.Ext(ext))], ext
+}
+
+// isValidAppName checks if the given name only contains letters and numbers.
+// If not, it will return false.
+func isValidAppName(name string) bool {
+	if name == "" {
+		return false
+	}
+
+	for _, r := range name {
+		if !unicode.IsLetter(r) && !unicode.IsDigit(r) {
+			return false
+		}
+	}
+
+	return true
 }
