@@ -8,11 +8,11 @@ import (
 	"github.com/otiai10/copy"
 )
 
-// prepareAndCopy copies src node to dest. It overwrites files in case of conflict.
-// It is used by Backup & Restore.
+// prepareAndCopy copies src node to dest. It overwrites files in case of conflict and
+// skips symlinks. It is used for Backup & Restore.
 //
 // First it creates destination directory, then it copies all files recursively.
-func prepareAndCopy(src string, dest string, logger logger) error {
+func prepareAndCopy(src string, dest string) error {
 	_, err := os.Stat(src)
 	if err != nil {
 		return &ApplicationError{
@@ -51,8 +51,6 @@ func prepareAndCopy(src string, dest string, logger logger) error {
 			Err:     err,
 		}
 	}
-
-	logger.Info("copied ", src, "to", dest)
 
 	return nil
 }

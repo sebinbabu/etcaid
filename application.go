@@ -49,9 +49,11 @@ func (a *Application) Backup() {
 		src := filepath.Join(a.homePath, p)
 		dest := filepath.Join(a.targetHomePath, p)
 
-		err := prepareAndCopy(src, dest, a.logger)
+		err := prepareAndCopy(src, dest)
 		if err != nil {
 			a.logger.Error(err)
+		} else {
+			a.logger.Info("copied", src, "to", dest)
 		}
 	}
 
@@ -59,9 +61,11 @@ func (a *Application) Backup() {
 		src := filepath.Join(a.xdgConfigPath, p)
 		dest := filepath.Join(a.targetXDGConfigPath, p)
 
-		err := prepareAndCopy(src, dest, a.logger)
+		err := prepareAndCopy(src, dest)
 		if err != nil {
 			a.logger.Error(err)
+		} else {
+			a.logger.Info("copied", src, "to", dest)
 		}
 	}
 }
@@ -74,9 +78,11 @@ func (a *Application) Restore() {
 		src := filepath.Join(a.targetHomePath, p)
 		dest := filepath.Join(a.homePath, p)
 
-		err := prepareAndCopy(src, dest, a.logger)
+		err := prepareAndCopy(src, dest)
 		if err != nil {
 			a.logger.Error(err)
+		} else {
+			a.logger.Info("copied", src, "to", dest)
 		}
 	}
 
@@ -84,9 +90,11 @@ func (a *Application) Restore() {
 		src := filepath.Join(a.targetXDGConfigPath, p)
 		dest := filepath.Join(a.xdgConfigPath, p)
 
-		err := prepareAndCopy(src, dest, a.logger)
+		err := prepareAndCopy(src, dest)
 		if err != nil {
 			a.logger.Error(err)
+		} else {
+			a.logger.Info("copied", src, "to", dest)
 		}
 	}
 }

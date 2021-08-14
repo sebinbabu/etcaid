@@ -205,3 +205,36 @@ func (c *Controller) Create(name string) (string, error) {
 
 	return confPath, nil
 }
+
+// ApplicationConfigPath returns the path to application configuration file
+// for an application with the given name. It returns the an error if it fails.
+func (c *Controller) ApplicationConfigPath(name string) (string, error) {
+	if !isValidAppName(name) {
+		return "", &ApplicationError{
+			Op:      "ApplicationConfigPath",
+			Message: "failed to get config, names can only contain letters and numbers",
+		}
+	}
+
+	confPath := filepath.Join(c.applicationDir, name+".toml")
+	_, err := os.Stat(confPath)
+
+	if err != nil {
+		if os.IsNotExist(err) {
+			return "", &ApplicationError{
+				Op:      "ApplicationConfigPath",
+				Message: "application " + name + " doesn't exist",
+				Path:    confPath,
+			}
+		}
+
+		return "", &ApplicationError{
+			Op:      "ApplicationConfigPath",
+			Message: "failed to find application config",
+			Path:    confPath,
+			Err:     err,
+		}
+	}
+
+	return confPath, nil
+}
