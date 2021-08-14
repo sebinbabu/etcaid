@@ -99,6 +99,11 @@ func (a *Application) Restore() {
 	}
 }
 
+// Config returns the underlying config of an application.
+func (a *Application) Config() ApplicationConfig {
+	return a.config
+}
+
 // ApplicationError records an error and the operation and that caused it.
 type ApplicationError struct {
 	Op      string

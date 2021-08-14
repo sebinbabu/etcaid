@@ -117,6 +117,7 @@ func (c *Controller) LoadApplications() error {
 		}
 
 		config, err := ParseApplicationConfig(file)
+		config.Name = name
 		if err != nil {
 			c.logger.Error(&ApplicationError{
 				Op:      "LoadApplications",
@@ -189,6 +190,7 @@ func (c *Controller) Create(name string) (string, error) {
 	defer file.Close()
 
 	sampleConf := ApplicationConfig{
+		Name:           name,
 		Title:          name,
 		HomePaths:      []string{},
 		XDGConfigPaths: []string{},
@@ -237,4 +239,15 @@ func (c *Controller) ApplicationConfigPath(name string) (string, error) {
 	}
 
 	return confPath, nil
+}
+
+// Applications returns the list of all application configurations available.
+func (c *Controller) Applications() []ApplicationConfig {
+	applications := make([]ApplicationConfig, 0)
+
+	for _, a := range c.applications {
+		applications = append(applications, a.Config())
+	}
+
+	return applications
 }

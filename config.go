@@ -13,7 +13,8 @@ type Config struct {
 
 // ApplicationConfig is the configuration describing an application.
 type ApplicationConfig struct {
-	Title          string   `toml:"title"`            // Name of the application
+	Name           string   `toml:"-"`                // Unique name of the application
+	Title          string   `toml:"title"`            // Title of the application
 	HomePaths      []string `toml:"home_paths"`       // HomePaths is the list of source application file paths that exist relative to the user home directory
 	XDGConfigPaths []string `toml:"xdg_config_paths"` // XDGConfigPaths is the list of source application file paths that exist relative to the user XDG Config directory
 }
