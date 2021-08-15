@@ -14,6 +14,9 @@ var viewCmd *cobra.Command = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		name := args[0]
 		controller := buildController()
+		if !controller.CheckInit() {
+			cobra.CheckErr(errUninitialized)
+		}
 
 		err := controller.LoadApplications()
 		cobra.CheckErr(err)
@@ -30,10 +33,8 @@ var viewCmd *cobra.Command = &cobra.Command{
 			}
 		}
 
-		fmt.Println()
-
 		if len(app.XDGConfigPaths) > 0 {
-			fmt.Printf("XDG configuration files - %v:\n", controller.XDGConfigPath())
+			fmt.Printf("\nXDG configuration files - %v:\n", controller.XDGConfigPath())
 			for _, p := range app.XDGConfigPaths {
 				fmt.Printf(" - %v\n", p)
 			}

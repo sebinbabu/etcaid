@@ -22,6 +22,10 @@ It can be edited to add the paths of application configuration that will be back
 			name := args[0]
 
 			controller := buildController()
+			if !controller.CheckInit() {
+				cobra.CheckErr(errUninitialized)
+			}
+
 			path, err := controller.Create(name)
 			cobra.CheckErr(err)
 

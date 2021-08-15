@@ -71,6 +71,22 @@ func (c *Controller) Init() error {
 	return nil
 }
 
+// CheckInit checks if etcaid has been initialized. It returns false if the etcaid directories don't exist
+// in home or there's an error accessing the directories. Else, it returns true.
+func (c *Controller) CheckInit() bool {
+	dirs := []string{c.applicationDir, c.mainBackupDir, c.localBackupDir}
+
+	for _, d := range dirs {
+		f, err := os.Stat(d)
+
+		if err != nil || !f.IsDir() {
+			return false
+		}
+	}
+
+	return true
+}
+
 // LoadApplications loads the application configurations from the application config files
 // and makes the applications ready for further use.
 func (c *Controller) LoadApplications() error {

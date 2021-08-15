@@ -11,6 +11,9 @@ var restoreCmd *cobra.Command = &cobra.Command{
 	Args:  cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		controller := buildController()
+		if !controller.CheckInit() {
+			cobra.CheckErr(errUninitialized)
+		}
 
 		err := controller.LoadApplications()
 		cobra.CheckErr(err)
