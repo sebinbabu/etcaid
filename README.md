@@ -43,6 +43,20 @@ copied /home/currentuser/etcaid/backup/zsh/home/.zshrc to /home/currentuser/.zsh
 ```
 * Use `git` on the `~/etcaid` directory to save your backups and sync it across devices.
 
+## Help
+
+Use `etcaid help` to get a detailed list of commands supported by `etcaid`.
+
+#### Available commands:
+* `backup`: Backups all applications
+* `edit`: Opens an editor to edit an existing application configuration
+* `help`: Help about any command
+* `init`: Initializes etcaid
+* `list`: Lists all applications available
+* `new`: Generates a new application configuration and opens it for editing
+* `restore`: Restores all applications
+* `view`: Views an application config
+
 ## Why `etcaid`?
 
 While there are mature & amazing projects out there that would solve most problems of syncing application configurations across devices, I needed a tool that would be simple enough to just let me define what files needed to be backed up for an application. And I'd just go ahead and use `git` for versioning and syncing. No magic, no surprises. And thus, `etcaid` was born.
