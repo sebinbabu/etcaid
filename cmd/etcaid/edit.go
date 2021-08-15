@@ -22,7 +22,7 @@ It can be edited to add the paths of application configuration that will be back
 			path, err := controller.ApplicationConfigPath(name)
 			cobra.CheckErr(err)
 
-			c := exec.Command("vim", path)
+			c := exec.Command(editor, path)
 			c.Stdin = os.Stdin
 			c.Stdout = os.Stdout
 			err = c.Run()
@@ -32,3 +32,7 @@ It can be edited to add the paths of application configuration that will be back
 		},
 	}
 )
+
+func init() {
+	editCmd.Flags().StringVarP(&editor, "editor", "e", "vim", "command run when editing application config")
+}

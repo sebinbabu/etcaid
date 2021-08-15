@@ -10,6 +10,7 @@ import (
 
 var (
 	noedit bool
+	editor string
 
 	newCmd *cobra.Command = &cobra.Command{
 		Use:   "new",
@@ -25,7 +26,7 @@ It can be edited to add the paths of application configuration that will be back
 			cobra.CheckErr(err)
 
 			if noedit == false {
-				c := exec.Command("vim", path)
+				c := exec.Command(editor, path)
 				c.Stdin = os.Stdin
 				c.Stdout = os.Stdout
 				err = c.Run()
@@ -39,4 +40,5 @@ It can be edited to add the paths of application configuration that will be back
 
 func init() {
 	newCmd.Flags().BoolVarP(&noedit, "noedit", "n", false, "disables starting the editor after creating application config")
+	newCmd.Flags().StringVarP(&editor, "editor", "e", "vim", "command run when editing application config")
 }

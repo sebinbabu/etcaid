@@ -251,3 +251,26 @@ func (c *Controller) Applications() []ApplicationConfig {
 
 	return applications
 }
+
+// Application accepts an application name and returns the application configuration available.
+func (c *Controller) Application(name string) (ApplicationConfig, error) {
+	a, ok := c.applications[name]
+	if !ok {
+		return ApplicationConfig{}, &ApplicationError{
+			Op:      "Application",
+			Message: "failed to find application config",
+		}
+	}
+
+	return a.Config(), nil
+}
+
+// Returns the home path used to initialize the controller.
+func (c *Controller) HomePath() string {
+	return c.homePath
+}
+
+// Returns the xdg config path used to initialize the controller.
+func (c *Controller) XDGConfigPath() string {
+	return c.xdgConfigPath
+}
