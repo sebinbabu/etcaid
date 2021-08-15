@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"os"
 	"os/exec"
@@ -21,7 +20,7 @@ It can be edited to add the paths of application configuration that will be back
 
 			controller := buildController()
 			if !controller.CheckInit() {
-				cobra.CheckErr(errors.New("etcaid isn't initialized yet. Use 'etcaid init' to initialize."))
+				cobra.CheckErr(errUninitialized)
 			}
 
 			path, err := controller.ApplicationConfigPath(name)

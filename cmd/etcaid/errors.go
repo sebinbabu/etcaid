@@ -2,4 +2,5 @@ package main
 
 import "errors"
 
-var errUninitialized = errors.New("etcaid isn't initialized yet. Use 'etcaid init' to initialize.")
+// errUninitialized signifies that etcaid hasn't been initialized yet.
+var errUninitialized = errors.New("etcaid isn't initialized yet. Use `etcaid init` to initialize.")
